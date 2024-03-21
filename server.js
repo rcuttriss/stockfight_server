@@ -12,8 +12,7 @@ const react_ws = new Server(server, {
 });
 
 // Finnhub WebSocket connection details (replace with your credentials)
-const finnhubWsUrl =
-  "wss://ws.finnhub.io?token=cnrugd1r01qqp8d0maf0cnrugd1r01qqp8d0mafg";
+const finnhubWsUrl = process.env.FINNHUB_API_TOKEN;
 
 let finnhubSocket = null; // Store the Finnhub WebSocket connection
 
