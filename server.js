@@ -10,6 +10,7 @@ const react_ws = new Server(server, {
     origin: "http://localhost:3000", // Replace with your React app's origin
   },
 });
+require("dotenv").config(); // Load environment variables from .env file
 
 // Finnhub WebSocket connection details (replace with your credentials)
 const finnhubWsUrl = process.env.FINNHUB_API_TOKEN;
@@ -22,13 +23,22 @@ const connectToFinnhub = () => {
   finnhubSocket.onopen = () => {
     console.log("Connected to Finnhub WebSocket API");
     finnhubSocket.send(
+      JSON.stringify({ type: "subscribe", symbol: "BINANCE:ETHUSDT" })
+    );
+    finnhubSocket.send(
       JSON.stringify({ type: "subscribe", symbol: "BINANCE:BTCUSDT" })
+    );
+    finnhubSocket.send(
+      JSON.stringify({ type: "subscribe", symbol: "BINANCE:MKRUSDT" })
+    );
+    finnhubSocket.send(
+      JSON.stringify({ type: "subscribe", symbol: "BINANCE:PAXGUSDT" })
     );
   };
 
   finnhubSocket.onmessage = (message) => {
     const data = JSON.parse(message.data);
-
+    // console.log(data);
     // Emit the received data to the React client(s)
     react_ws.emit("finnhub-data", data);
   };
